@@ -1,5 +1,6 @@
 package com.musala.dronedispatcher.service;
 
+
 import com.musala.dronedispatcher.model.Drone;
 import com.musala.dronedispatcher.model.Medication;
 
@@ -9,7 +10,7 @@ public interface DroneService {
 
     Drone register(Drone drone);
 
-    Iterable<Medication> load(List<Medication> medications);
+    List<Medication> load(List<Medication> medications);
 
     List<Medication> checkLoadedMedicationItems(String serialNumber);
 
