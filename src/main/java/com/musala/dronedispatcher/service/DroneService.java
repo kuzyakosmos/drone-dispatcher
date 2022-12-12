@@ -1,6 +1,5 @@
 package com.musala.dronedispatcher.service;
 
-
 import com.musala.dronedispatcher.model.Drone;
 import com.musala.dronedispatcher.model.Medication;
 
@@ -16,5 +15,5 @@ public interface DroneService {
 
     Byte checkBattery(String serialNumber);
 
-    List<String> checkAvailableDrones();
+    List<Long> checkAvailableDrones();
 }
