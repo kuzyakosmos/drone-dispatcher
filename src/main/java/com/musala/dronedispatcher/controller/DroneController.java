@@ -40,13 +40,13 @@ public class DroneController {
         return ResponseEntity.ok(droneService.register(drone).getId());
     }
 
-    @GetMapping("/{serial-number}")
+    @GetMapping("/battery/{serial-number}")
     public ResponseEntity<Byte> checkBatteryLevel(@PathVariable(name = "serial-number") String serialNumber) {
         return ResponseEntity.ok(droneService.checkBattery(serialNumber));
     }
 
     @GetMapping
-    public ResponseEntity<List<String>> checkAvailableDrones() {
+    public ResponseEntity<List<Long>> checkAvailableDrones() {
         return ResponseEntity.ok(droneService.checkAvailableDrones());
     }
 }

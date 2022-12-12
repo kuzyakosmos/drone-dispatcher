@@ -1,5 +1,7 @@
 package com.musala.dronedispatcher.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.musala.dronedispatcher.dto.MedicationDto;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -7,36 +9,31 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@RequiredArgsConstructor
 @Table(name = "medications")
-public class Medication extends Load {
+public class Medication{
+    @Getter
     @Id
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Setter
     private String code;
 
+    @Setter
     private String name;
 
+    @Setter
     private short weight;
 
-    //todo
+    @Setter
     private String image;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "drone")
+    @JsonIgnore
     private Drone drone;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Medication that = (Medication) o;
-        return code != null && Objects.equals(code, that.code);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    public MedicationDto toDto() {
+        return new MedicationDto(id, code, name, weight, image, drone.getId());
     }
 }

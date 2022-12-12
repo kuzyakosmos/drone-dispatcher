@@ -1,46 +1,42 @@
 package com.musala.dronedispatcher.model;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import com.musala.dronedispatcher.dto.DroneDto;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@RequiredArgsConstructor
 @Table(name = "drones")
 public class Drone {
+    @Getter
     @Id
-    @Column(name = "serial_number", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Setter
+    @Column(nullable = false)
     private String serialNumber;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     private Model model;
 
+    @Setter
     private short weightLimit;
 
-    private byte batteryCapacity;
+    @Setter
+    private byte batteryCapacity = 100;
 
+    @Setter
     @Enumerated(EnumType.STRING)
-    private State state;
+    private State state = State.IDLE;
 
-    @OneToMany(targetEntity = Medication.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "drone")
+    @OneToMany(targetEntity = Medication.class, cascade = CascadeType.ALL, mappedBy = "drone")
     private List<Medication> medications;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Drone drone = (Drone) o;
-        return serialNumber != null && Objects.equals(serialNumber, drone.serialNumber);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    public DroneDto toDto() {
+        return new DroneDto (id, serialNumber, model.name(), weightLimit, batteryCapacity, state.name());
     }
 }
